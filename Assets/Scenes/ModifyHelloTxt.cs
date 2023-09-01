@@ -10,7 +10,7 @@ public class ModifyHelloTxt : MonoBehaviour
 {
 
     [DllImport("__Internal")]
-    private static extern void GetLtiUsername([MarshalAs(UnmanagedType.FunctionPtr)] LtiUsernameCallback callback);
+    private static extern void GetLtiUsername();
 
     public TMP_Text helloTxt;
 
@@ -28,21 +28,7 @@ public class ModifyHelloTxt : MonoBehaviour
 
     void ConnectLtiUser()
     {
-        GetLtiUsername(OnLtiUserConnected);
+        GetLtiUsername();
     }
-
-    [AOT.MonoPInvokeCallback(typeof(LtiUsernameCallback))]
-    private static void OnLtiUserConnected(string username)
-    {
-        if (username != "")
-        {
-            ModifyHelloTxt instance = new ModifyHelloTxt();
-            instance.helloTxt.text = username;
-        }
-    }
-
-    // Define the callback delegate type
-    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    private delegate void LtiUsernameCallback(string username);
 }
 
